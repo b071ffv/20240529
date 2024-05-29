@@ -1,0 +1,50 @@
+import "./styles.css";
+
+const canvas = document.querySelector("#draw-area");
+const context = canvas.getContext("2d");
+
+canvas.addEventListener("mousemove", (event) => {
+  draw(event.layerX - 5, event.layerY - 32);
+});
+canvas.addEventListener("touchmove", (event) => {
+  draw(event.layerX - 5, event.layerY - 32);
+  //var touch = event.touches[0]; // ここから追記
+  //var x = touch.pageX - canvas.offsetLeft;
+  //var y = touch.pageY - canvas.offsetTop;
+  //event.preventDefault();
+  //draw(x, y); // ここまで追記
+});
+
+canvas.addEventListener("mousedown", () => {
+  context.beginPath();
+  isDrag = true;
+});
+canvas.addEventListener("mouseup", () => {
+  context.closePath();
+  isDrag = false;
+});
+canvas.addEventListener("touchstart", () => {
+  context.beginPath();
+  isDrag = true;
+});
+canvas.addEventListener("touchend", () => {
+  context.closePath();
+  isDrag = false;
+});
+
+const clearButton = document.querySelector("#clear-button");
+clearButton.addEventListener("click", () => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+let isDrag = false;
+function draw(x, y) {
+  if (!isDrag) {
+    return;
+  }
+
+  context.lineWidth = 5;
+  context.strokeStyle = "#aa0000";
+  context.lineTo(x, y);
+  context.stroke();
+}
